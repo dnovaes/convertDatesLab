@@ -10,6 +10,7 @@ import com.dnovaes.convertdateslab.extensions.getCurrentOffset
 import com.dnovaes.convertdateslab.extensions.toDate
 import com.dnovaes.convertdateslab.helpers.DateHelper.AMERICAN_DATE
 import com.dnovaes.convertdateslab.helpers.DateHelper.getDate
+import com.dnovaes.printcharizardlib.asciiArtViewComponent
 import org.threeten.bp.Clock
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
@@ -31,6 +32,7 @@ import trikita.anvil.DSL.gravity
 import trikita.anvil.DSL.id
 import trikita.anvil.DSL.linearLayout
 import trikita.anvil.DSL.orientation
+import trikita.anvil.DSL.scrollView
 import trikita.anvil.DSL.selection
 import trikita.anvil.DSL.spinner
 import trikita.anvil.DSL.textView
@@ -60,115 +62,119 @@ class MainActivity : RenderableActivity() {
             selectedTimeZone = timeZones.toList().indexOf(
                 Pair(clock.zone.toString(), clock.getCurrentOffset().toString()))
         }
-
-        linearLayout {
-            size(MATCH, WRAP)
-            orientation(VERTICAL)
-
-            spinner {
+        scrollView {
+            size(MATCH, MATCH)
+            linearLayout {
                 size(MATCH, WRAP)
-                adapter(timeZonesAdapter)
-                padding(dip(PADDING_DEFAULT))
-                selectedTimeZone?.let { selection(it) }
-                onItemSelected { _, _, indexSelected, _ ->
-                    //Timezone values like GMT-03/GMT-04 from date.toString are deprecated and incorrect
-                    val zoneString = timeZones.entries.toTypedArray()[indexSelected].key
-                    TimeZone.setDefault(TimeZone.getTimeZone(zoneString))
-                    selectedTimeZone = indexSelected
+                orientation(VERTICAL)
+
+                spinner {
+                    size(MATCH, WRAP)
+                    adapter(timeZonesAdapter)
+                    padding(dip(PADDING_DEFAULT))
+                    selectedTimeZone?.let { selection(it) }
+                    onItemSelected { _, _, indexSelected, _ ->
+                        //Timezone values like GMT-03/GMT-04 from date.toString are deprecated and incorrect
+                        val zoneString = timeZones.entries.toTypedArray()[indexSelected].key
+                        TimeZone.setDefault(TimeZone.getTimeZone(zoneString))
+                        selectedTimeZone = indexSelected
+                    }
                 }
-            }
 
-            //Date
-            textView {
-                id(LABEL_DATE_UTIL)
-                size(MATCH, WRAP)
-                padding(dip(PADDING_TEXTVIEW_DEFAULT ))
-                text("DATE() Now:")
-                typeface(null, BOLD)
-                gravity(CENTER)
-            }
-
-            textView {
-                size(MATCH, WRAP)
-                padding(dip(PADDING_TEXTVIEW_DEFAULT ))
-                text(Date().toString())
-                gravity(CENTER)
-            }
-
-            //LocalDate
-            textView {
-                id(LABEL_LOCALDATETIME)
-                size(MATCH, WRAP)
-                padding(dip(PADDING_TEXTVIEW_DEFAULT ))
-                text("LocalDateTime().now")
-                typeface(null, BOLD)
-                gravity(CENTER)
-            }
-
-            textView {
-                size(MATCH, WRAP)
-                padding(dip(PADDING_TEXTVIEW_DEFAULT ))
-                text(LocalDateTime.now().toString())
-                gravity(CENTER)
-            }
-
-            //LocalDate
-            textView {
-                id(LABEL_LOCALDATE)
-                size(MATCH, WRAP)
-                padding(dip(PADDING_TEXTVIEW_DEFAULT ))
-                text("LocalDate().now Now")
-                typeface(null, BOLD)
-                gravity(CENTER)
-            }
-
-            textView {
-                size(MATCH, WRAP)
-                padding(dip(PADDING_TEXTVIEW_DEFAULT ))
-                text(LocalDate.now().toString())
-                gravity(CENTER)
-            }
-
-            //ZoneId
-            textView {
-                size(MATCH, WRAP)
-                padding(dip(PADDING_TEXTVIEW_DEFAULT ))
-                text("ZoneId")
-                typeface(null, BOLD)
-                gravity(CENTER)
-            }
-            textView {
-                size(MATCH, WRAP)
-                padding(dip(PADDING_TEXTVIEW_DEFAULT ))
-                selectedTimeZone?.let {
-                    val zoneId = ZoneId.of(timeZones.entries.toTypedArray()[it].key)
-                    val zoneOffset = zoneId.rules.getOffset(LocalDateTime.now(zoneId))
-                    text("$zoneId $zoneOffset")
+                //Date
+                textView {
+                    id(LABEL_DATE_UTIL)
+                    size(MATCH, WRAP)
+                    padding(dip(PADDING_TEXTVIEW_DEFAULT ))
+                    text("DATE() Now:")
+                    typeface(null, BOLD)
+                    gravity(CENTER)
                 }
-                gravity(CENTER)
-            }
 
-            //daysOfWeek
-            textView {
-                size(MATCH, WRAP)
-                padding(dip(PADDING_TEXTVIEW_DEFAULT ))
-                text("getDaysOfWeek()")
-                typeface(null, BOLD)
-                gravity(CENTER)
-            }
-            textView {
-                size(MATCH, WRAP)
-                padding(dip(PADDING_TEXTVIEW_DEFAULT ))
-                text("by Date: "+getDaysOfWeek().toString())
-                gravity(CENTER)
-            }
-            textView {
-                size(MATCH, WRAP)
-                padding(dip(PADDING_TEXTVIEW_DEFAULT ))
-                text("byLocalDate: "+getDaysOfWeekNew().toString())
-                gravity(CENTER)
+                textView {
+                    size(MATCH, WRAP)
+                    padding(dip(PADDING_TEXTVIEW_DEFAULT ))
+                    text(Date().toString())
+                    gravity(CENTER)
+                }
+
+                //LocalDate
+                textView {
+                    id(LABEL_LOCALDATETIME)
+                    size(MATCH, WRAP)
+                    padding(dip(PADDING_TEXTVIEW_DEFAULT ))
+                    text("LocalDateTime().now")
+                    typeface(null, BOLD)
+                    gravity(CENTER)
+                }
+
+                textView {
+                    size(MATCH, WRAP)
+                    padding(dip(PADDING_TEXTVIEW_DEFAULT ))
+                    text(LocalDateTime.now().toString())
+                    gravity(CENTER)
+                }
+
+                //LocalDate
+                textView {
+                    id(LABEL_LOCALDATE)
+                    size(MATCH, WRAP)
+                    padding(dip(PADDING_TEXTVIEW_DEFAULT ))
+                    text("LocalDate().now Now")
+                    typeface(null, BOLD)
+                    gravity(CENTER)
+                }
+
+                textView {
+                    size(MATCH, WRAP)
+                    padding(dip(PADDING_TEXTVIEW_DEFAULT ))
+                    text(LocalDate.now().toString())
+                    gravity(CENTER)
+                }
+
+                //ZoneId
+                textView {
+                    size(MATCH, WRAP)
+                    padding(dip(PADDING_TEXTVIEW_DEFAULT ))
+                    text("ZoneId")
+                    typeface(null, BOLD)
+                    gravity(CENTER)
+                }
+                textView {
+                    size(MATCH, WRAP)
+                    padding(dip(PADDING_TEXTVIEW_DEFAULT ))
+                    selectedTimeZone?.let {
+                        val zoneId = ZoneId.of(timeZones.entries.toTypedArray()[it].key)
+                        val zoneOffset = zoneId.rules.getOffset(LocalDateTime.now(zoneId))
+                        text("$zoneId $zoneOffset")
+                    }
+                    gravity(CENTER)
+                }
+
+                //daysOfWeek
+                textView {
+                    size(MATCH, WRAP)
+                    padding(dip(PADDING_TEXTVIEW_DEFAULT ))
+                    text("getDaysOfWeek()")
+                    typeface(null, BOLD)
+                    gravity(CENTER)
+                }
+                textView {
+                    size(MATCH, WRAP)
+                    padding(dip(PADDING_TEXTVIEW_DEFAULT ))
+                    text("by Date: "+getDaysOfWeek().toString())
+                    gravity(CENTER)
+                }
+                textView {
+                    size(MATCH, WRAP)
+                    padding(dip(PADDING_TEXTVIEW_DEFAULT ))
+                    text("byLocalDate: "+getDaysOfWeekNew().toString())
+                    gravity(CENTER)
+                }
+                asciiArtViewComponent {}
             }
         }
+
     }
 
     private fun getAllZoneIdsAndOffset(): MutableMap<String, String> {
@@ -184,9 +190,6 @@ class MainActivity : RenderableActivity() {
             formattedZoneList[id.toString()] = offset
         }
         return formattedZoneList
-    }
-
-    private fun initialRender() {
     }
 
     fun getDaysOfWeek(): Pair<Date, Date>? {
