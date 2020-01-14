@@ -1,4 +1,4 @@
-package com.kaefer.convertdateslab.constants
+package com.dnovaes.convertdateslab.constants
 
 object Dimensions {
    const val PADDING_TEXTVIEW_DEFAULT = 5

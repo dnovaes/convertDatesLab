@@ -1,7 +1,7 @@
-package com.kaefer.convertdateslab.helpers
+package com.dnovaes.convertdateslab.helpers
 
 import android.util.Log
-import com.kaefer.convertdateslab.MainActivity
+import com.dnovaes.convertdateslab.MainActivity
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
