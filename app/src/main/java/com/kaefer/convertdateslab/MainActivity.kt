@@ -144,7 +144,7 @@ class MainActivity : RenderableActivity() {
                 selectedTimeZone?.let {
                     val zoneId = ZoneId.of(timeZones.entries.toTypedArray()[it].key)
                     val zoneOffset = zoneId.rules.getOffset(LocalDateTime.now(zoneId))
-                    text("${} | $zoneId $zoneOffset")
+                    text("$zoneId $zoneOffset")
                 }
                 gravity(CENTER)
             }
