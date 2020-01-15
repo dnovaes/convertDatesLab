@@ -4,7 +4,6 @@ apply plugin: 'maven-publish'
 group 'com.dnovaes.convertdateslab'
 version '1.0.0'
 
-//"https://bintray.com/dnovaes/dnovaes/printCharizardAscii"
 project.ext {
     mavDevelopers = ["dnovaes":"Diego Novaes"]
     mavSiteUrl = "https://github.com/dnovaes/convertdateslab"
