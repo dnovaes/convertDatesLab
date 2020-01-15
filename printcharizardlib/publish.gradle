@@ -1,0 +1,63 @@
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
+group 'com.dnovaes.convertdateslab'
+version '1.0.0'
+
+project.ext {
+    mavDevelopers = ["dnovaes":"Diego Novaes"]
+    mavSiteUrl = "https://github.com/dnovaes/convertdateslab"
+    mavGitUrl = mavSiteUrl + '.git'
+    mavProjectName = 'convertdateslab'
+    mavPublishToMavenLocal= true
+    mavLibraryLicenses = ["GPL-3.0":'https://raw.githubusercontent.com/dnovaes/convertdateslab/master/LICENSE']
+    mavLibraryDescription = "Conversion comparison between dates from java.util and ThreeTen (java.time backport)"
+}
+
+def properties = new Properties()
+properties.load(new FileInputStream("local.properties"))
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    publications = ['mavenKt']
+    configurations = ['archives']
+    publish = false
+    override = true
+    pkg {
+        repo = 'maven'
+        name = 'convertDatesLab'
+        description = "Conversion comparison between dates from java.util and ThreeTen (java.time backport)"
+        publicDownloadNumbers = true
+        licenses = ['GPL-3.0']
+        vcsUrl = 'https://github.com/dnovaes/convertDatesLab.git'
+        version {
+            name = this.version
+            desc = "Version ${this.version}"
+            released = new Date()
+            vcsTag = this.version
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenKt(MavenPublication) {
+            pom {
+                name = project.name
+                description = project.description
+                url = "https://github.com/dnovaes/convertdateslab"
+
+                scm {
+                    url = "https://github.com/dnovaes/convertdateslab"
+                }
+            }
+            //from components.java
+            groupId 'com.dnovaes.convertdateslab'
+            artifactId 'printcharizazrdlib'
+            version '1.0.0'
+        }
+    }
+}
+
+apply from: 'https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/master/gradle-mavenizer.gradle'
